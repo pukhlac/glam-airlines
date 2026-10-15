@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Рейс «День рождения»</title>
+<style>
+:root{--bg:#f8eaf0;--card:#fffafc;--ink:#3a1430;--soft:#7a5470;--red:#b8326b;--sun:#a8741a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d0f1c;--card:#2b1829;--ink:#fbeaf1;--soft:#d1aabf;--sun:#f0c15c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d0f1c;--card:#2b1829;--ink:#fbeaf1;--soft:#d1aabf;--sun:#f0c15c;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.5 "Trebuchet MS","Segoe UI",system-ui,sans-serif;overflow-x:hidden}
+#app{min-height:100%;display:flex;flex-direction:column;max-width:480px;margin:0 auto;padding:16px 20px 28px}
+.bar{position:relative;height:30px;margin:4px 0 10px}
+.bar i{position:absolute;left:0;right:0;top:15px;border-top:2px dashed var(--soft);opacity:.5}
+.bar b{position:absolute;top:0;left:3%;font-size:24px;transform:translateX(-50%);transition:left 1.2s cubic-bezier(.5,0,.2,1)}
+.scr{flex:1;display:none;flex-direction:column;justify-content:center;text-align:center;gap:16px}
+.scr.on{display:flex;animation:in .6s both}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h1,h2,p{margin:0}
+h1,h2{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-weight:400}
+h1{font-size:clamp(30px,9vw,40px);line-height:1.15}
+h2{font-size:28px}
+.soft{color:var(--soft)}
+.tk{background:var(--card);border-radius:18px;padding:20px;text-align:left;box-shadow:0 10px 30px #0003;display:grid;grid-template-columns:1fr 1fr;gap:14px 10px}
+.tk small{display:block;color:var(--soft);font-size:14px}
+.tk b{font-size:18px}
+.tk .w{grid-column:1/-1;border-bottom:2px dashed var(--soft);padding-bottom:12px}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:14px 22px;background:var(--red);color:#fff;cursor:pointer;transition:transform .15s}
+button:active{transform:scale(.95)}
+button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.dish{font-size:92px;line-height:1;background:var(--card);width:156px;height:156px;border-radius:50%;margin:0 auto;padding:0;display:grid;place-items:center;box-shadow:0 8px 24px #0003;animation:bob 3s ease-in-out infinite}
+.dish.pop{animation:pop .7s}
+@keyframes bob{50%{transform:translateY(-8px)}}
+@keyframes pop{30%{transform:scale(1.3) rotate(-10deg)}60%{transform:scale(.9) rotate(8deg)}}
+.wish{min-height:5.5em;opacity:0;transition:opacity .6s}
+.wish.on{opacity:1}
+.nx{visibility:hidden}.nx.on{visibility:visible}
+.line{animation:in .8s both}
+.pl{font:italic 28px/1.25 Georgia,"Times New Roman",serif;margin-top:6px;background:linear-gradient(90deg,var(--sun),var(--red),var(--sun));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:in .8s both,sh 3s linear infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.cf{position:fixed;top:-20px;width:9px;height:14px;border-radius:2px;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(var(--r))}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style></head>
+<body>
+<div id="app"><div class="bar"><i></i><b id="pl">✈️</b></div></div>
+<script>
+const NAME="Вероника";
+const S=[
+{e:"🗼",c:"Париж",t:"Терраса с видом на Эйфелеву башню и свет золотого часа. Пусть каждый твой вечер выглядит так, будто его уже обработали."},
+{e:"🌅",c:"Лазурный берег",t:"Закат, розовое шампанское и яхта на горизонте. Пусть красивых мест в твоём году будет столько, что выбирать придётся по настроению."},
+{e:"🎻",c:"Вена",t:"Вечер при свечах и живая музыка, от которой мурашки. Пусть красивая музыка играет в твоей жизни фоном и всегда по твоему вкусу."}
+];
+const G=[
+"Желаю, чтобы рейсы вылетали вовремя, а чемодан приезжал вместе с тобой.",
+"Чтобы столик всегда был у окна с лучшим видом, свет — красивым, а официант — с чувством юмора.",
+"Чтобы красивых мест и кадров набралось столько, что телефон попросил добавить памяти.",
+"Пусть этот год будет красивым, лёгким на подъём и под очень хорошую музыку. 🥂"
+];
+const app=document.getElementById("app"),pl=document.getElementById("pl"),scr=[];
+const add=h=>{const s=document.createElement("section");s.className="scr";s.innerHTML=h;app.appendChild(s);scr.push(s);return s};
+let n=0;
+const go=i=>{scr[n].classList.remove("on");n=i;scr[n].classList.add("on");pl.style.left=(3+94*n/(scr.length-1))+"%"};
+const q=(s,x)=>s.querySelector(x);
+
+const a=add(`<h1>${NAME}, ваш рейс готов к вылету</h1>
+<div class="tk"><div class="w"><small>Пассажир</small><b>${NAME}</b></div><div><small>Рейс</small><b>«День рождения»</b></div><div><small>Куда</small><b>Красивые места мира</b></div></div>
+<p class="soft">Багаж не нужен — только идеальный образ.</p><button class="go">Пройти регистрацию</button>`);
+q(a,".go").onclick=()=>go(1);
+
+S.forEach((s,i)=>{
+  const e=add(`<h2>${s.c}</h2><button class="dish" aria-label="Открыть">${s.e}</button><p class="soft hint">Нажми на круг и перенесись туда</p><p class="wish">${s.t}</p><button class="nx">Лететь дальше</button>`);
+  const d=q(e,".dish");
+  d.onclick=()=>{d.classList.remove("pop");void d.offsetWidth;d.classList.add("pop");q(e,".wish").classList.add("on");q(e,".nx").classList.add("on");q(e,".hint").style.visibility="hidden"};
+  q(e,".nx").onclick=()=>go(i+2);
+});
+
+const L=add(`<button class="dish" style="font-size:110px" aria-label="Торт">🎂</button><h2 class="ft">Последняя остановка: десерт. Загадай желание и задуй свечу.</h2><button class="bl">Задуть свечу</button><div class="gr"></div>`);
+function conf(){const c=["#d93a22","#ffb627","#1b998b","#4aa3ff","#ff7eb6"];for(let i=0;i<70;i++){const s=document.createElement("span");s.className="cf";s.style.cssText=`left:${Math.random()*100}%;background:${c[i%5]};--dx:${Math.random()*160-80}px;--r:${Math.random()*720}deg;animation-duration:${2.2+Math.random()*2}s;animation-delay:${Math.random()*.6}s`;document.body.appendChild(s);setTimeout(()=>s.remove(),5500)}}
+q(L,".bl").onclick=()=>{
+  q(L,".bl").remove();q(L,".ft").remove();
+  const d=q(L,".dish");d.textContent="🎉";d.classList.add("pop");conf();
+  q(L,".gr").innerHTML=`<h1 class="line">С днём рождения, ${NAME}!</h1>`+G.map((t,i)=>`<p class="line" style="animation-delay:${.6+i*1}s">${t}</p>`).join("")+`<p class="line pl" style="animation-delay:${.6+G.length+.4}s">Вероника не Вероника без своей гламурности ✨</p>`;
+};
+go(0);
+</script>
+</body></html>
